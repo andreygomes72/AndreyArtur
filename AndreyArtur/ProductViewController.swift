@@ -44,7 +44,7 @@ class ProductViewController: UIViewController {
         tfState.inputAccessoryView = toolbar
         
         if product != nil {
-            btnSave.setTitle("Salvar", for: .normal)
+            btnSave.setTitle("Atualizar", for: .normal)
             tfName.text = product.name
             if let state = product.state {
                 tfState.text = state.name
@@ -60,14 +60,19 @@ class ProductViewController: UIViewController {
         loadStates();
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        loadStates()
+    }
+    
     func loadStates() {
         let fetchRequest: NSFetchRequest<State> = State.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
         fetchRequest.sortDescriptors = [sortDescriptor]
-        self.fetchedResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultController.delegate = self
         
         do {
-            try self.fetchedResultController.performFetch()
+            try fetchedResultController.performFetch()
         } catch {
             print(error.localizedDescription)
         }
@@ -78,7 +83,7 @@ class ProductViewController: UIViewController {
     }
     
     @objc func done() {
-        currentState = self.fetchedResultController.object(at: IndexPath(row: pickerView.selectedRow(inComponent: 0), section: 0))
+        currentState = fetchedResultController.object(at: IndexPath(row: pickerView.selectedRow(inComponent: 0), section: 0))
         tfState.text = currentState.name
         cancelState()
     }
@@ -163,10 +168,10 @@ class ProductViewController: UIViewController {
         }
         alert.addAction(libraryAction)
         
-        //        let photosAction = UIAlertAction(title: "Álbum de fotos", style: .default) { (action: UIAlertAction) in
-        //            self.setNewImage(sourceType: .savedPhotosAlbum)
-        //        }
-        //        alert.addAction(photosAction)
+        let photosAction = UIAlertAction(title: "Álbum de fotos", style: .default) { (action: UIAlertAction) in
+                    self.setNewImage(sourceType: .savedPhotosAlbum)
+        }
+        alert.addAction(photosAction)
         
         let cancelAction = UIAlertAction(title: "Cancelar", style: .cancel, handler: nil)
         alert.addAction(cancelAction)

@@ -77,7 +77,6 @@ class AdjustsViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
     
@@ -94,19 +93,16 @@ class AdjustsViewController: UIViewController, UITableViewDataSource, UITableVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 22))
         label.text = "Lista de estados vazia."
         label.textAlignment = .center
-        
-        loadStates()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         tfRate.text = String(format : "%.2f" ,UserDefaults.standard.double(forKey: "rate"))
         tfIOF.text = String(format: "%.2f", UserDefaults.standard.double(forKey: "iof"))
+        loadStates()
     }
 
     override func didReceiveMemoryWarning() {

@@ -74,6 +74,7 @@
                                     <outlet property="ivProduct" destination="eWY-E1-WxC" id="CQa-pD-zUM"/>
                                     <outlet property="lblPrice" destination="uzy-fG-YuI" id="Vn8-tF-TWn"/>
                                     <outlet property="lblProduct" destination="XUO-aC-FOn" id="HSJ-12-n0g"/>
+                                    <segue destination="2yS-WA-VaV" kind="show" id="ofP-d4-n1v"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -449,5 +450,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="kJn-ZE-duU"/>
+        <segue reference="tae-mg-dNN"/>
     </inferredMetricsTieBreakers>
 </document>

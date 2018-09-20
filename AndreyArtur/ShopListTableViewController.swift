@@ -82,18 +82,19 @@ class ShopListTableViewController: UITableViewController {
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            let product = fetchedResultController.object(at: indexPath)
-            context.delete(product)
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let deleteAction = UITableViewRowAction(style: .destructive, title: "Excluir") { (action: UITableViewRowAction, indexPath: IndexPath) in
+            let product = self.fetchedResultController.object(at: indexPath)
+            self.context.delete(product)
             do {
-                try context.save()
-                loadProducts()
+                try self.context.save()
+                self.loadProducts()
+                self.tableView.reloadData()
             } catch {
                 print(error.localizedDescription)
             }
-        } else if editingStyle == .insert {
         }
+        return [deleteAction]
     }
 }
 
