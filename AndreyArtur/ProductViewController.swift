@@ -23,6 +23,7 @@ class ProductViewController: UIViewController {
     var currentState: State!
     var product: Product!
     var smallImage: UIImage!
+    var editingProduct: Bool!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +34,6 @@ class ProductViewController: UIViewController {
         pickerView.dataSource = self
         
         let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 44))
-        
         let btCancel = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelState))
         let btSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let btDone = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(done))
@@ -43,7 +43,9 @@ class ProductViewController: UIViewController {
         tfState.inputView = pickerView
         tfState.inputAccessoryView = toolbar
         
+        editingProduct = false
         if product != nil {
+            editingProduct = true
             btnSave.setTitle("Atualizar", for: .normal)
             tfName.text = product.name
             if let state = product.state {
@@ -120,9 +122,12 @@ class ProductViewController: UIViewController {
         
         if smallImage != nil {
             product.image = smallImage
-        }
-        else {
-            errorMessage += "Imagem do produto é obrigatória!"
+        } else {
+            if editingProduct {
+                product.image = ivProduct.image
+            } else {
+               errorMessage += "Imagem do produto é obrigatória!"
+            }
         }
         
         if errorMessage.count > 1 {

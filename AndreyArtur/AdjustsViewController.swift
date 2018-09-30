@@ -97,7 +97,7 @@ class AdjustsViewController: UIViewController, UITableViewDataSource, UITableVie
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tfRate.text = String(format : "%.2f" ,UserDefaults.standard.double(forKey: "rate"))
+        tfRate.text = String(format : "%.2f", UserDefaults.standard.double(forKey: "rate"))
         tfIOF.text = String(format: "%.2f", UserDefaults.standard.double(forKey: "iof"))
         loadStates()
     }
