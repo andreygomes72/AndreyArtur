@@ -56,7 +56,6 @@ class ProductViewController: UIViewController {
                 ivProduct.image = image
             }
         }
-        
         loadStates();
     }
     
@@ -100,22 +99,23 @@ class ProductViewController: UIViewController {
             product.name = name
         }
         else {
-            errorMessage += "Nome do produto é obrigatório!\n"
+            errorMessage += "Nome do produto está com conteúdo inválido!\n"
         }
         
         if let value = tfPrice.text, let dValue = Double(value), dValue >= 0 {
             product.price = dValue
         }
         else {
-            errorMessage += "Preço é obrigatório!\n"
+            errorMessage += "Preço está com valor inválido!\n"
         }
         
         product.card = swCard.isOn
+        
         if currentState != nil {
             product.state = currentState
         }
         else {
-            errorMessage += "Estado é obrigatório!\n"
+            errorMessage += "Nome do estado está com conteúdo inválido!\n"
         }
         
         if smallImage != nil {
@@ -145,11 +145,8 @@ class ProductViewController: UIViewController {
     func setNewImage(sourceType: UIImagePickerControllerSourceType)
     {
         let imagePicker = UIImagePickerController()
-        
         imagePicker.sourceType = sourceType
-        
         imagePicker.delegate = self
-        
         present(imagePicker, animated: true, completion: nil)
     }
     
@@ -167,11 +164,6 @@ class ProductViewController: UIViewController {
             self.setNewImage(sourceType: .photoLibrary)
         }
         alert.addAction(libraryAction)
-        
-        let photosAction = UIAlertAction(title: "Álbum de fotos", style: .default) { (action: UIAlertAction) in
-                    self.setNewImage(sourceType: .savedPhotosAlbum)
-        }
-        alert.addAction(photosAction)
         
         let cancelAction = UIAlertAction(title: "Cancelar", style: .cancel, handler: nil)
         alert.addAction(cancelAction)
@@ -219,9 +211,7 @@ extension ProductViewController: UIImagePickerControllerDelegate, UINavigationCo
         image.draw(in: CGRect(x: 0, y: 0, width: smallSize.width, height: smallSize.height))
         smallImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        
         ivProduct.image = smallImage
-        
         dismiss(animated: true, completion: nil)
     }
 }

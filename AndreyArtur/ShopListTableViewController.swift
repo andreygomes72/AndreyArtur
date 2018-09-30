@@ -20,7 +20,6 @@ class ShopListTableViewController: UITableViewController {
         tableView.estimatedRowHeight = 103
         label.text = "Sua lista está vazia!"
         label.textAlignment = .center
-        
         loadProducts()
     }
     
@@ -32,10 +31,8 @@ class ShopListTableViewController: UITableViewController {
     
     func loadProducts() {
         let fetchRequest: NSFetchRequest<Product> = Product.fetchRequest()
-        
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
         fetchRequest.sortDescriptors = [sortDescriptor]
-        
         fetchedResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultController.delegate = self
       
@@ -46,18 +43,15 @@ class ShopListTableViewController: UITableViewController {
         }
     }
     
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         if let count = fetchedResultController.fetchedObjects?.count {
             tableView.backgroundView = (count == 0) ? label : nil
             return count
@@ -69,9 +63,7 @@ class ShopListTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "productCell", for: indexPath) as! ShopListTableViewCell
-        
         let product = fetchedResultController.object(at: indexPath)
-        
         cell.lblProduct.text = product.name
         cell.lblPrice.text = "\(String(format: "%.2f", product.price))"
         
@@ -94,6 +86,7 @@ class ShopListTableViewController: UITableViewController {
                 print(error.localizedDescription)
             }
         }
+        
         return [deleteAction]
     }
 }

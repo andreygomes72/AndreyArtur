@@ -23,12 +23,9 @@ class TotalViewController: UIViewController {
     
     func loadProducts() {
         let fetchRequest: NSFetchRequest<Product> = Product.fetchRequest()
-        
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
         fetchRequest.sortDescriptors = [sortDescriptor]
-        
         fetchedResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-        
         fetchedResultController.delegate = self
         
         do {
@@ -65,7 +62,6 @@ class TotalViewController: UIViewController {
 }
 
 extension TotalViewController: NSFetchedResultsControllerDelegate {
-    
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         calculateTotal()
     }

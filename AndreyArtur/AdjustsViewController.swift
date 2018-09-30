@@ -15,9 +15,7 @@ enum CategoryType {
 
 class AdjustsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
-    //var states: [State] = []
     var state: State!
-    //var product: Product!
     var label: UILabel!
     var alert: UIAlertController!
     var fetchedResultController: NSFetchedResultsController<State>!
@@ -90,7 +88,6 @@ class AdjustsViewController: UIViewController, UITableViewDataSource, UITableVie
         }
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 22))
@@ -126,11 +123,9 @@ class AdjustsViewController: UIViewController, UITableViewDataSource, UITableVie
         }
     }
     
-    
     @objc func stateTextChanged(sender: UITextField)
     {
         var isOK = true
-        
         if let fields = alert.textFields {
             for field in fields {
                 if let placeHolder = field.placeholder {
@@ -158,8 +153,15 @@ class AdjustsViewController: UIViewController, UITableViewDataSource, UITableVie
     
     
     func showAlert(type: CategoryType, state: State?) {
+        var title: String?
+        var newState = state
         
-        let title = state == nil ? "Cadastar" : "Atualizar"
+        if newState == nil {
+            title = "Cadastar"
+            newState = State(context: self.context)
+        } else {
+            title = "Atualizar"
+        }
         
         alert = UIAlertController(title: title, message: "Preencha o nome do estado e a taxa", preferredStyle: .alert)
         
@@ -179,25 +181,24 @@ class AdjustsViewController: UIViewController, UITableViewDataSource, UITableVie
             }
         }
         alert.addAction(UIAlertAction(title: title, style: .default, handler: { (action: UIAlertAction) in
-            let state = self.state ?? State(context: self.context)
             var errorMessage = ""
             if let name = self.alert.textFields?.first?.text, name.count > 0 {
-                state.name = name
+                newState!.name = name
             }
             else {
-                errorMessage += "Campo de nome está vazio\n"
+                errorMessage += "Nome do estado está com conteúdo inválido!\n"
             }
             
             if let strTax = self.alert.textFields?.last?.text, let tax = Double(strTax) {
-                state.tax = tax
+                newState!.tax = tax
             }
             else {
-                errorMessage += "Campo de taxa está vazio"
+                errorMessage += "Taxa está com valor inválido!"
             }
             
             if errorMessage.count > 1 {
                 print(errorMessage)
-                self.context.delete(state)
+                self.context.delete(newState!)
                 self.state = nil
             }
             
